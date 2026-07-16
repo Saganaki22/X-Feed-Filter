@@ -97,7 +97,8 @@ export interface MatchOutcome {
 
 /* ----------------------------- messaging ----------------------------- */
 
-export type ContentMessage = { type: 'GET_STATS' } | { type: 'RESCAN' } | { type: 'PING' };
+export type ContentMessage =
+  { type: 'GET_STATS' } | { type: 'RESCAN' } | { type: 'SETTINGS_UPDATED' } | { type: 'PING' };
 
 export interface SessionStatsPayload {
   hidden: number;

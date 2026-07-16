@@ -11,15 +11,19 @@ export interface RuleInput {
 }
 
 type Listener = (settings: Settings) => void;
+type PersistedListener = () => void;
 
 /**
  * Thin async wrapper over chrome.storage.local for the popup UI.
- * Every mutation persists immediately; chrome.storage.onChanged then nudges
- * the content script to recompile and re-scan.
+ * Every mutation is persisted in order. After each completed write the popup
+ * can directly nudge the active content script; storage.onChanged remains a
+ * cross-tab fallback.
  */
-class PopupStore {
+export class PopupStore {
   private settings: Settings = createDefaultSettings();
   private readonly listeners = new Set<Listener>();
+  private readonly persistedListeners = new Set<PersistedListener>();
+  private saveQueue: Promise<void> = Promise.resolve();
 
   async load(): Promise<Settings> {
     this.settings = await loadSettings();
@@ -36,6 +40,11 @@ class PopupStore {
     return () => this.listeners.delete(fn);
   }
 
+  subscribePersisted(fn: PersistedListener): () => void {
+    this.persistedListeners.add(fn);
+    return () => this.persistedListeners.delete(fn);
+  }
+
   async setMaster(enabled: boolean): Promise<void> {
     this.settings = { ...this.settings, masterEnabled: enabled };
     await this.persist();
@@ -46,38 +55,38 @@ class PopupStore {
     await this.persist();
   }
 
-  addRule(input: RuleInput): Rule {
+  async addRule(input: RuleInput): Promise<Rule> {
     const rule = createRule(input);
     this.settings = { ...this.settings, rules: [...this.settings.rules, rule] };
-    void this.persist();
+    await this.persist();
     return rule;
   }
 
-  updateRule(id: string, input: RuleInput): void {
+  async updateRule(id: string, input: RuleInput): Promise<void> {
     const rules = this.settings.rules.map((r) =>
       r.id === id ? { ...r, ...input, updatedAt: Date.now() } : r,
     );
     this.settings = { ...this.settings, rules };
-    void this.persist();
+    await this.persist();
   }
 
-  toggleRule(id: string, enabled: boolean): void {
+  async toggleRule(id: string, enabled: boolean): Promise<void> {
     const rules = this.settings.rules.map((r) =>
       r.id === id ? { ...r, enabled, updatedAt: Date.now() } : r,
     );
     this.settings = { ...this.settings, rules };
-    void this.persist();
+    await this.persist();
   }
 
-  deleteRule(id: string): void {
+  async deleteRule(id: string): Promise<void> {
     this.settings = { ...this.settings, rules: this.settings.rules.filter((r) => r.id !== id) };
-    void this.persist();
+    await this.persist();
   }
 
   /** Used by import (optionally renaming clashing ids). */
-  setRules(rules: Rule[]): void {
+  async setRules(rules: Rule[]): Promise<void> {
     this.settings = { ...this.settings, rules };
-    void this.persist();
+    await this.persist();
   }
 
   async reset(): Promise<void> {
@@ -87,8 +96,11 @@ class PopupStore {
 
   private async persist(): Promise<void> {
     const snapshot = this.settings;
-    await saveSettings(snapshot);
+    const write = this.saveQueue.then(() => saveSettings(snapshot));
+    this.saveQueue = write.catch(() => undefined);
+    await write;
     this.emit();
+    for (const fn of this.persistedListeners) fn();
   }
 
   private emit(): void {

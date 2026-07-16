@@ -16,7 +16,10 @@
 - Match phrases, `@handles`, and `#hashtags`, with whole-word and case-sensitive options.
 - See which filters are active or paused in the popup.
 - Search, edit, pause, delete, import, and export filters.
-- Rescan the current feed and view the number hidden in the current tab.
+- Apply saved filter changes to the open feed automatically, without requiring
+  a page refresh or manual rescan.
+- Rescan the current feed using the latest saved filters and view the number
+  hidden in the current tab.
 - Use a green toolbar icon while filtering is enabled and a blue one while it is disabled.
 - Store everything locally. There is no telemetry, tracking, advertising, remote code, or third-party runtime service.
 
@@ -81,6 +84,10 @@ distribution, package the build and submit it to
 3. Choose **Hide it completely** or **Show a placeholder**.
 4. Select a filter type, enter its value, and click **Add**.
 5. Use the checkbox beside a saved filter to mark it **Active** or **Paused**.
+
+Saved changes are applied to the currently open X feed immediately. **Rescan
+feed** is available as a recovery/manual check and always reloads the newest
+saved filters before scanning.
 
 Phrase filters inspect post text, quoted text, display names, and repost
 attribution. Handle filters inspect the post and quoted-post authors. Hashtag

@@ -3,6 +3,24 @@
 All notable changes to this project are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-07-16
+
+### Fixed
+
+- New, edited, enabled, disabled, imported, and deleted filters now apply to the
+  open X feed immediately after they are saved.
+- Settings writes are awaited and serialized so rapid popup changes cannot be
+  persisted out of order.
+- **Rescan feed** now reloads the latest saved settings before performing an
+  immediate full scan, allowing it to recover from a missed live-update event.
+
+### Changed
+
+- Added regression tests for ordered popup persistence and storage-refreshing
+  content-script messages.
+- Kept the existing `storage`-only permission model; no new permissions were
+  added.
+
 ## [1.0.0] - 2026-07-16
 
 ### Added
@@ -25,4 +43,5 @@ This project follows [Semantic Versioning](https://semver.org/).
 - Dark/light theme via `prefers-color-scheme`.
 - Manifest V3, single permission (`storage`), no remote code, no runtime deps.
 
-[1.0.0]: https://semver.org/#spec-item-2
+[1.1.0]: https://github.com/Saganaki22/X-Feed-Filter/releases/tag/v1.1.0
+[1.0.0]: https://github.com/Saganaki22/X-Feed-Filter/releases/tag/v1.0.0

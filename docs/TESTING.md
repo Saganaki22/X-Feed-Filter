@@ -17,6 +17,8 @@ npm run test:watch # watch mode
 | `rule-compiler.test.ts`     | Phrase contains/whole‑word, handle, hashtag, case sensitivity, disabled/empty rules.                            |
 | `rule-matcher.test.ts`      | First‑match wins, field mapping, no‑match passthrough.                                                          |
 | `storage-migration.test.ts` | Malformed input → defaults, partial input merge, enum coercion, dedupe.                                         |
+| `popup-state.test.ts`       | Awaited, ordered settings persistence and post-save notifications.                                              |
+| `message-handler.test.ts`   | Rescan/save messages reload persisted settings before an immediate scan.                                        |
 | `x-adapter.test.ts`         | Extraction of text/handle/display name/quoted post/repost attribution from fixture HTML; nested/quote skipping. |
 
 ## Fixtures
@@ -31,9 +33,11 @@ the extraction logic testable without a live X page.
 1. `npm run build`
 2. Load `dist/` as an unpacked extension (see README).
 3. Open x.com, add a phrase filter via the popup, confirm matching posts
-   disappear (or show a placeholder).
-4. Toggle the master switch off and confirm posts reappear.
-5. Import/Export a JSON file.
+   disappear (or show a placeholder) immediately without refreshing.
+4. Add a matching post before saving a new filter, press **Rescan feed**, and
+   confirm the latest saved filter is used.
+5. Toggle the master switch off and confirm posts reappear.
+6. Import/Export a JSON file.
 
 ## E2E (optional)
 

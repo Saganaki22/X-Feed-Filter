@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const storeMock = vi.hoisted(() => ({
-  addRule: vi.fn(),
-  updateRule: vi.fn(),
+  addRule: vi.fn().mockResolvedValue(undefined),
+  updateRule: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('../../src/popup/state.js', () => ({ store: storeMock }));

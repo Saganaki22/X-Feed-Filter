@@ -89,7 +89,7 @@ function buildRuleItem(rule: Rule, editor: RuleEditor): HTMLLIElement {
   toggle.checked = rule.enabled;
   toggle.id = `r-${rule.id}`;
   toggle.setAttribute('aria-label', `Enable filter ${rule.value}`);
-  toggle.addEventListener('change', () => store.toggleRule(rule.id, toggle.checked));
+  toggle.addEventListener('change', () => void store.toggleRule(rule.id, toggle.checked));
 
   const badge = document.createElement('span');
   badge.className = `xff-badge xff-badge--${rule.type}`;
@@ -142,7 +142,7 @@ function buildRuleItem(rule: Rule, editor: RuleEditor): HTMLLIElement {
     });
     if (!accepted) return;
     if (editor.getEditingId() === rule.id) editor.reset();
-    store.deleteRule(rule.id);
+    await store.deleteRule(rule.id);
     announce(`Deleted ${rule.value}`);
   });
 
@@ -224,6 +224,9 @@ async function main(): Promise<void> {
   });
 
   store.subscribe((s) => render(s, editor));
+  store.subscribePersisted(() => {
+    void queryActiveTab({ type: 'SETTINGS_UPDATED' }).then(() => refreshStats());
+  });
   await store.load();
 
   byId<HTMLInputElement>('master').addEventListener('change', (e) => {
@@ -290,7 +293,7 @@ async function main(): Promise<void> {
       confirmLabel: 'Replace',
     });
     if (!accepted) return;
-    store.setRules(res.settings.rules);
+    await store.setRules(res.settings.rules);
     announce(`Imported ${incoming} filters`);
   });
 

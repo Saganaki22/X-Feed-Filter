@@ -45,6 +45,15 @@ export class FilterEngine {
    * everything (so removed/changed rules take effect), then re-scan fully.
    */
   setSettings(settings: Settings): void {
+    this.applySettings(settings, false);
+  }
+
+  /** Replace settings and complete the resulting full scan before returning. */
+  setSettingsNow(settings: Settings): void {
+    this.applySettings(settings, true);
+  }
+
+  private applySettings(settings: Settings, flushNow: boolean): void {
     this.evaluated = new WeakMap();
     this.settings = settings;
     this.deps.stats.masterEnabled = settings.masterEnabled;
@@ -52,6 +61,7 @@ export class FilterEngine {
     this.deps.visibility.setMode(settings.hideMode);
     this.deps.visibility.restoreAll();
     this.requestScan(null);
+    if (flushNow) this.scheduler.flushNow();
   }
 
   /** Synchronously run a full rescan now (used by the RESCAN message). */
@@ -78,6 +88,8 @@ export class FilterEngine {
       case 'RESCAN':
         this.rescanNow();
         return { ok: true, stats: this.deps.stats.snapshot() };
+      case 'SETTINGS_UPDATED':
+        return { ok: false, error: 'Settings must be reloaded by the content entry point.' };
       default:
         return { ok: false, error: 'Unknown message type.' };
     }

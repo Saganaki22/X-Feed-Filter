@@ -1,9 +1,9 @@
 import { loadSettings, subscribeToSettings } from '../shared/storage.js';
 import { extensionApi } from '../shared/browser-api.js';
-import type { ContentMessage, ContentResponse } from '../shared/types.js';
 import { xAdapter } from './adapters/x-adapter.js';
 import { FilterEngine } from './engine.js';
 import { FeedObserver } from './observer.js';
+import { createContentMessageHandler } from './message-handler.js';
 import { RouteWatcher } from './route-watcher.js';
 import { SessionStats } from './session-stats.js';
 import { VisibilityController } from './visibility.js';
@@ -67,13 +67,7 @@ async function main(): Promise<void> {
   routeWatcher.start();
 
   // Answer the popup's status / rescan requests (no extra permissions needed).
-  const onMessage = (
-    msg: ContentMessage,
-    sender: chrome.runtime.MessageSender,
-    sendResponse: (response: ContentResponse) => void,
-  ): void => {
-    sendResponse(engine.handleMessage(msg, sender));
-  };
+  const onMessage = createContentMessageHandler(engine, stats, loadSettings);
   extensionApi.runtime.onMessage.addListener(onMessage);
 
   // Best-effort cleanup if the script is ever torn down.

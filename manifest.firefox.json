@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "X Feed Filter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Hide posts on X (Twitter) whose content matches words, phrases, handles, or hashtags you define. Private, local, no tracking.",
   "permissions": ["storage"],
   "background": {

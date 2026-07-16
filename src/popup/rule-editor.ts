@@ -48,7 +48,7 @@ export class RuleEditor {
     this.els.type.addEventListener('change', () => this.updatePlaceholder());
     this.els.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      this.submit();
+      void this.submit();
     });
   }
 
@@ -80,7 +80,7 @@ export class RuleEditor {
     announce(message);
   }
 
-  private submit(): void {
+  private async submit(): Promise<void> {
     const input = this.read();
     const result = validateRule(input);
     if (!result.valid) {
@@ -88,8 +88,8 @@ export class RuleEditor {
       return;
     }
     const wasEditing = this.editingId;
-    if (wasEditing) store.updateRule(wasEditing, input);
-    else store.addRule(input);
+    if (wasEditing) await store.updateRule(wasEditing, input);
+    else await store.addRule(input);
     this.show(
       wasEditing
         ? `Updated “${input.value}”.`
