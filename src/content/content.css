@@ -1,0 +1,104 @@
+/*
+ * X Feed Filter — content styles.
+ * Namespaced under .xff-* so we never collide with X's own classes.
+ */
+
+.xff-hidden {
+  display: none !important;
+}
+
+.xff-placeholder {
+  --xff-bg: rgb(255, 255, 255);
+  --xff-fg: rgb(83, 100, 113);
+  --xff-border: rgb(207, 217, 222);
+  --xff-border-strong: rgb(83, 100, 113);
+  --xff-hover: rgba(15, 20, 25, 0.06);
+
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 2px 0;
+  border: 1px solid var(--xff-border);
+  border-radius: 12px;
+  background: var(--xff-bg);
+  color: var(--xff-fg);
+  font:
+    13px/1.4 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    system-ui,
+    sans-serif;
+  box-sizing: border-box;
+}
+
+.xff-placeholder__toolbar {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
+.xff-placeholder__label {
+  font-weight: 600;
+  color: var(--xff-fg);
+  flex: 0 0 auto;
+}
+
+.xff-placeholder__match {
+  flex: 1 1 auto;
+  min-width: 0;
+  opacity: 0.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xff-placeholder__show {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 auto;
+  border: 1px solid var(--xff-border-strong);
+  background: transparent;
+  color: var(--xff-fg);
+  cursor: pointer;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.xff-placeholder__show:hover,
+.xff-placeholder__show:focus-visible {
+  background: var(--xff-hover);
+  outline: none;
+}
+
+.xff-placeholder__show:focus-visible {
+  border-color: var(--xff-border-strong);
+}
+
+.xff-placeholder--revealed {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.xff-placeholder--revealed > .xff-placeholder__toolbar {
+  border-bottom: 1px solid var(--xff-border);
+  background: var(--xff-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .xff-placeholder {
+    --xff-bg: rgb(32, 35, 39);
+    --xff-fg: rgb(139, 144, 148);
+    --xff-border: rgb(47, 51, 54);
+    --xff-border-strong: rgb(139, 144, 148);
+    --xff-hover: rgba(255, 255, 255, 0.07);
+  }
+}

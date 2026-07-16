@@ -1,0 +1,35 @@
+{
+  "name": "x-feed-filter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hide posts on X (Twitter) whose content matches words, phrases, handles, or hashtags you define. Private, local, no tracking.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "build:watch": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "icons": "node scripts/generate-icons.mjs",
+    "clean": "node -e \"import('node:fs').then(fs=>['dist','dist-firefox'].forEach(dir=>fs.rmSync(dir,{recursive:true,force:true})))\""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@types/chrome": "^0.0.287",
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.18.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0",
+    "vitest": "^2.1.8"
+  }
+}

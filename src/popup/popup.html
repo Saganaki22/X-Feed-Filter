@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>X Feed Filter</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="xff-header">
+      <h1 class="xff-title">
+        <img id="brandIcon" class="xff-logo" src="../icons/icon-enabled-32.png" alt="" />
+        X Feed Filter
+      </h1>
+      <div class="xff-header__actions">
+        <span id="version" class="xff-version"></span>
+        <a
+          class="xff-github"
+          href="https://github.com/Saganaki22/X-Feed-Filter"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open X Feed Filter on GitHub"
+          title="Open X Feed Filter on GitHub"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.23c-3.22.7-3.9-1.37-3.9-1.37-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.57-.29-5.27-1.28-5.27-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18a10.9 10.9 0 0 1 5.76 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.71 5.39-5.29 5.68.42.36.79 1.07.79 2.16v3.2c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .7Z"
+            />
+          </svg>
+        </a>
+        <label class="xff-switch">
+          <input type="checkbox" id="master" />
+          <span class="xff-switch__track" aria-hidden="true"></span>
+          <span class="xff-sr-only">Filtering enabled</span>
+        </label>
+      </div>
+    </header>
+
+    <section class="xff-stats" aria-label="Session statistics">
+      <div class="xff-stat">
+        <span class="xff-stat__num" id="stat-hidden">—</span>
+        <span class="xff-stat__label">hidden this session</span>
+      </div>
+      <button type="button" id="rescan" class="xff-link xff-rescan">Rescan feed</button>
+    </section>
+
+    <section class="xff-options">
+      <label for="hideMode" class="xff-label">When a post matches</label>
+      <select id="hideMode" class="xff-select">
+        <option value="hide">Hide it completely</option>
+        <option value="placeholder">Show a placeholder</option>
+      </select>
+    </section>
+
+    <form id="ruleForm" class="xff-form" autocomplete="off">
+      <h2 class="xff-heading">Add a filter</h2>
+      <div class="xff-row">
+        <label for="type" class="xff-sr-only">Filter type</label>
+        <select id="type" class="xff-select xff-select--type">
+          <option value="phrase">Phrase</option>
+          <option value="handle">@Handle</option>
+          <option value="hashtag">#Hashtag</option>
+        </select>
+        <label for="value" class="xff-sr-only">Filter value</label>
+        <input id="value" class="xff-input" type="text" placeholder="e.g. spoilers" />
+        <button id="add" type="submit" class="xff-btn xff-btn--primary">Add</button>
+      </div>
+      <div class="xff-row xff-row--options">
+        <label class="xff-inline"><input type="checkbox" id="whole" /> Whole word</label>
+        <label class="xff-inline"
+          ><input type="checkbox" id="caseSensitive" /> Case sensitive</label
+        >
+        <button
+          id="more"
+          type="button"
+          class="xff-link"
+          aria-expanded="false"
+          aria-controls="advanced"
+        >
+          Note…
+        </button>
+      </div>
+      <div id="advanced" class="xff-advanced" hidden>
+        <label for="note" class="xff-label">Note (optional)</label>
+        <input
+          id="note"
+          class="xff-input"
+          type="text"
+          maxlength="120"
+          placeholder="Why are you hiding this?"
+        />
+      </div>
+      <p id="formMessage" class="xff-message" role="status" aria-live="polite"></p>
+      <button id="cancelEdit" type="button" class="xff-link" hidden>Cancel edit</button>
+    </form>
+
+    <section class="xff-list-wrap">
+      <div class="xff-list-head">
+        <h2 class="xff-heading">Filters <span id="count" class="xff-count">0 active</span></h2>
+        <input
+          id="filter"
+          class="xff-input xff-filter"
+          type="search"
+          placeholder="Search"
+          aria-label="Search filters"
+        />
+      </div>
+      <ul id="ruleList" class="xff-list" aria-label="Filter rules"></ul>
+      <p id="emptyState" class="xff-empty">No filters yet — add one above.</p>
+    </section>
+
+    <footer class="xff-footer">
+      <button id="import" type="button" class="xff-btn">Import</button>
+      <button id="export" type="button" class="xff-btn">Export</button>
+      <button id="reset" type="button" class="xff-btn xff-btn--danger">Reset</button>
+      <input id="fileInput" type="file" accept="application/json,.json" hidden />
+    </footer>
+
+    <dialog id="confirmDialog" class="xff-dialog" aria-labelledby="confirmTitle">
+      <form method="dialog" class="xff-dialog__panel">
+        <h2 id="confirmTitle" class="xff-dialog__title">Confirm action</h2>
+        <p id="confirmMessage" class="xff-dialog__message"></p>
+        <div class="xff-dialog__actions">
+          <button type="submit" value="cancel" class="xff-btn" autofocus>Cancel</button>
+          <button id="confirmAccept" type="submit" value="confirm" class="xff-btn">Confirm</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="announce" class="xff-sr-only" role="status" aria-live="polite"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

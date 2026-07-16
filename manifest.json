@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "X Feed Filter",
+  "version": "1.0.0",
+  "description": "Hide posts on X (Twitter) whose content matches words, phrases, handles, or hashtags you define. Private, local, no tracking.",
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "X Feed Filter",
+    "default_icon": {
+      "16": "icons/icon-disabled-16.png",
+      "32": "icons/icon-disabled-32.png",
+      "48": "icons/icon-disabled-48.png",
+      "128": "icons/icon-disabled-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-disabled-16.png",
+    "32": "icons/icon-disabled-32.png",
+    "48": "icons/icon-disabled-48.png",
+    "128": "icons/icon-disabled-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ]
+}

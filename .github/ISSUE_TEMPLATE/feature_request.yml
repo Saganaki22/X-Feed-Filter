@@ -1,0 +1,51 @@
+name: Feature request
+description: Suggest an improvement or new capability.
+title: '[Feature]: '
+labels: []
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for suggesting an improvement to X Feed Filter.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Explain the use case before describing the solution.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe how you would like the feature to work.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Mention any workarounds or alternative designs you considered.
+
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Browser scope
+      options:
+        - All supported browsers
+        - Chrome and Brave
+        - Firefox
+        - Not browser-specific
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Final check
+      options:
+        - label: I checked that this feature has not already been requested.
+          required: true

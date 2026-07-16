@@ -1,0 +1,88 @@
+name: Bug report
+description: Report something that is broken or behaving unexpectedly.
+title: '[Bug]: '
+labels: []
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve X Feed Filter. Please remove private information from screenshots and exported filters.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected to happen.
+      placeholder: Tell us what went wrong.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Give the smallest reliable sequence that triggers the problem.
+      placeholder: |
+        1. Open X Feed Filter
+        2. Add a filter for ...
+        3. Scroll the feed
+        4. See ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Google Chrome
+        - Brave
+        - Firefox
+        - Other Chromium browser
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: browser-version
+    attributes:
+      label: Browser version
+      placeholder: e.g. 142.0.0
+
+  - type: input
+    id: extension-version
+    attributes:
+      label: X Feed Filter version
+      description: This is shown beside the GitHub icon in the popup.
+      placeholder: e.g. v1.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: hide-mode
+    attributes:
+      label: Matching-post behavior
+      options:
+        - Hide completely
+        - Show a placeholder
+        - Happens in both modes
+        - Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or console errors
+      description: Drag in screenshots or paste relevant errors. Do not include private filter data.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Final checks
+      options:
+        - label: I reloaded the unpacked extension and refreshed the X tab.
+          required: true
+        - label: I checked that this issue has not already been reported.
+          required: true
