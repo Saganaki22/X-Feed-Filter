@@ -1,22 +1,24 @@
-# X Feed Filter
+<p align="center">
+  <img width="64" height="64" alt="X Feed Filter icon" src="https://github.com/user-attachments/assets/7af8566f-7422-4fd8-8e09-01e92d8c3d33" />
+</p>
 
-A small, privacy-first browser extension that hides posts on **X (Twitter)**
-when they match words, phrases, hashtags, or account handles you choose.
+<h1 align="center">X Feed Filter</h1>
 
-## Features
+<p align="center">
+  A small, privacy-first browser extension that hides posts on <strong>X (Twitter)</strong><br>
+  when they match words, phrases, hashtags, or account handles you choose.
+</p>
 
-- Hide matching posts completely or replace each one with a placeholder in its
-  original position in the feed.
+<h2 align="center">Features</h2>
+
+- Hide matching posts completely or replace each one with a placeholder in its original position in the feed.
 - Reveal an individual hidden post without disabling your filters.
-- Match phrases, `@handles`, and `#hashtags`, with whole-word and
-  case-sensitive options.
+- Match phrases, `@handles`, and `#hashtags`, with whole-word and case-sensitive options.
 - See which filters are active or paused in the popup.
 - Search, edit, pause, delete, import, and export filters.
 - Rescan the current feed and view the number hidden in the current tab.
-- Use a green toolbar icon while filtering is enabled and a blue one while it
-  is disabled.
-- Store everything locally. There is no telemetry, tracking, advertising,
-  remote code, or third-party runtime service.
+- Use a green toolbar icon while filtering is enabled and a blue one while it is disabled.
+- Store everything locally. There is no telemetry, tracking, advertising, remote code, or third-party runtime service.
 
 ## Browser support
 
@@ -38,7 +40,7 @@ Mozilla before it can be installed permanently by end users.
 You need [Node.js 20 or newer](https://nodejs.org/).
 
 ```sh
-git clone <your-repository-url>
+git clone https://github.com/Saganaki22/X-Feed-Filter
 cd X-Hide
 npm install
 npm run build
