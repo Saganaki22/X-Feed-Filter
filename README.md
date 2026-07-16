@@ -41,7 +41,7 @@ You need [Node.js 20 or newer](https://nodejs.org/).
 
 ```sh
 git clone https://github.com/Saganaki22/X-Feed-Filter
-cd X-Hide
+cd X-Feed-Filter
 npm install
 npm run build
 ```
